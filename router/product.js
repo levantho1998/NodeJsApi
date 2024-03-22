@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-router.post("/login", controller.login);
+router.post("/login", verifyAccessToken, controller.login);
 router.post("/refresh-token", controller.postRefreshToken);
 router.post("/logout", verifyAccessToken, controller.logoutUser);
 router.get("/ThoLv", verifyAccessToken, controller.getAllProduct);
