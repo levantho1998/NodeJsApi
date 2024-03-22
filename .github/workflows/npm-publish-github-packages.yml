@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  check_pull_request_title:
+  test:
     runs-on: ubuntu-latest
 
     steps:
