@@ -1,0 +1,23 @@
+name: My Workflow
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build and test
+        run: npm run build && npm test
+
+      - name: Deploy
+        uses: actions/deploy@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          source: ./dist
+          target: gh-pages
