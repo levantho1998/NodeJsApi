@@ -3,7 +3,8 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-# This workflow will install Deno then run `deno lint` and `deno test`.
+# This workflow will install Deno, check pull request title format,
+# then run `deno lint` and `deno test`.
 # For more information see: https://github.com/denoland/setup-deno
 
 name: Deno
@@ -24,6 +25,16 @@ jobs:
     steps:
       - name: Setup repo
         uses: actions/checkout@v3
+
+      - name: Check pull request title format
+        run: |
+          title="${{ github.event.pull_request.title }}"
+          regex="^LV:(.*)$"
+
+          if [[ ! $title =~ $regex ]]; then
+            echo "::error Pull request title must start with LV:"
+            exit 1
+          fi
 
       - name: Setup Deno
         # uses: denoland/setup-deno@v1
