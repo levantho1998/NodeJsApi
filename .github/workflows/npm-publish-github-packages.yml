@@ -1,0 +1,39 @@
+name: Deno
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+
+permissions:
+  contents: read
+
+jobs:
+  check_pull_request_title:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v3
+
+      - name: Check pull request title format
+        run: |
+          title="${{ github.event.pull_request.title }}"
+          regex="^LV:(.*)$"
+
+          if [[ ! $title =~ $regex ]]; then
+            echo "::error Pull request title must start with LV:"
+            exit 1
+          fi
+
+      # Uncomment this step to verify the use of 'deno fmt' on each commit.
+      # - name: Verify formatting
+      #   run: deno fmt --check
+
+      # - name: Run linter
+      #   run: deno lint
+
+      # - name: Run tests
+      #   run: deno test -A
+
